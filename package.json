@@ -4,7 +4,7 @@
   "description": "Project Mesto",
   "main": "app.js",
   "scripts": {
-    "build": "node app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "lint": "npx eslint ."
   },
