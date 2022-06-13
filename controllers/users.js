@@ -40,7 +40,7 @@ const createUser = (req, res) => {
 const updateUserInfo = (req, res) => {
   const { name, about } = req.body;
   const id = req.user._id;
-  User.findByIdAndUpdate(id, { name, about }, { new: true })
+  User.findByIdAndUpdate(id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'Запрашиваемый пользователь не найден' });
@@ -48,7 +48,13 @@ const updateUserInfo = (req, res) => {
       }
       res.send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Запрос содержит некорректные данные' });
+      } else {
+        res.status(500).send({ message: err.message });
+      }
+    });
 };
 
 const updateAvatar = (req, res) => {
