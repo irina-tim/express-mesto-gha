@@ -29,7 +29,13 @@ const deleteCard = (req, res) => {
       }
       res.send({ data: card });
     })
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.path === '_id') {
+        res.status(400).send({ message: 'Неправильный id карточки' });
+      } else {
+        res.status(500).send({ message: err.message });
+      }
+    });
 };
 
 const addLike = (req, res) => {
