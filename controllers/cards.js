@@ -35,15 +35,39 @@ const deleteCard = (req, res) => {
 const addLike = (req, res) => {
   const owner = req.user._id;
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: owner } }, { new: true })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Карточка не найдена' });
+        return;
+      }
+      res.send({ data: card });
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Запрос содержит некорректные данные' });
+      } else {
+        res.status(500).send({ message: err.message });
+      }
+    });
 };
 
 const removeLike = (req, res) => {
   const owner = req.user._id;
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: owner } }, { new: true })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Карточка не найдена' });
+        return;
+      }
+      res.send({ data: card });
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Запрос содержит некорректные данные' });
+      } else {
+        res.status(500).send({ message: err.message });
+      }
+    });
 };
 
 module.exports = {
