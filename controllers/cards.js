@@ -43,8 +43,8 @@ const addLike = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Запрос содержит некорректные данные' });
+      if (err.path === '_id') {
+        res.status(400).send({ message: 'Неправильный id карточки' });
       } else {
         res.status(500).send({ message: err.message });
       }
@@ -62,8 +62,8 @@ const removeLike = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Запрос содержит некорректные данные' });
+      if (err.path === '_id') {
+        res.status(400).send({ message: 'Неправильный id карточки' });
       } else {
         res.status(500).send({ message: err.message });
       }
