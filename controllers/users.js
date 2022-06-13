@@ -62,7 +62,7 @@ const updateAvatar = (req, res) => {
       }
       res.send({ data: user });
     })
-    .catch((err) => res.status(500).send({ message: err.message }))
+    .catch((err) => res.status(500).send({ message: err.message }));
 };
 
 module.exports = {
