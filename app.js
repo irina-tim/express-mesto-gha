@@ -21,5 +21,8 @@ app.use((req, res, next) => {
 
 app.use(usersRoutes);
 app.use(cardsRoutes);
+app.all('*', (req, res) => {
+  res.status(404).send({ message: 'Ошибка 404. Путь не найден.' });
+});
 
 app.listen(PORT);
