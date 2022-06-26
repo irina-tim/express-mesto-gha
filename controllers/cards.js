@@ -30,7 +30,7 @@ const deleteCard = (req, res) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.path === '_id') {
+      if (err.name === 'CastError') {
         res.status(400).send({ message: 'Неправильный id карточки' });
       } else {
         res.status(500).send({ message: err.message });
