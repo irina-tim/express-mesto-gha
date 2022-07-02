@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
-const AuthError = require('../errors/AuthError');
 const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
@@ -120,7 +119,7 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch(() => {
-      throw new AuthError('Неправильные почта или пароль');
+      throw new UnauthorizedError('Неправильные почта или пароль');
     });
 };
 
