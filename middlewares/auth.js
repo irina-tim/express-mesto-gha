@@ -11,7 +11,7 @@ const auth = (req, res, next) => {
   const token = extractBearerToken(authorization);
   let payload;
   try {
-    payload = jwt.verify(token, 'secret-key');
+    payload = jwt.verify(token, 'secret');
   } catch (err) {
     throw new UnauthorizedError('Необходимо авторизоваться');
   }

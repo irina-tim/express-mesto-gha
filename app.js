@@ -46,8 +46,8 @@ app.post('/signup', celebrate.celebrate({
 
 // app.use(auth);
 
-app.use('/users', auth, usersRoutes);
-app.use('/cards', auth, cardsRoutes);
+app.use('/', auth, usersRoutes);
+app.use('/', auth, cardsRoutes);
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError('Ошибка 404. Путь не найден.'));
