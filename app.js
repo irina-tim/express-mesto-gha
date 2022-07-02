@@ -11,6 +11,7 @@ const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+const urlMatchRexExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 app.use(helmet());
 
@@ -37,7 +38,7 @@ app.post('/signup', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     name: celebrate.Joi.string().min(2).max(30),
     about: celebrate.Joi.string().min(2).max(30),
-    avatar: celebrate.Joi.string(),
+    avatar: celebrate.Joi.string().pattern(urlMatchRexExp),
     email: celebrate.Joi.string().email().required(),
     password: celebrate.Joi.string().required(),
   }),
