@@ -35,7 +35,15 @@ const getUserInfo = (req, res, next) => {
       if (!user) {
         throw new UnauthorizedError('Запрашиваемый пользователь не найден');
       }
-      res.send({ data: user });
+      res.send({
+        data: {
+          _id: user._id,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+        },
+      });
     })
     .catch(next);
 };
@@ -84,7 +92,15 @@ const updateUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      res.send({ data: user });
+      res.send({
+        data: {
+          _id: user._id,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+        },
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
