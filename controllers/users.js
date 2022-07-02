@@ -39,6 +39,8 @@ const getUser = (req, res, next) => {
     .catch((err) => {
       if (err.path === '_id') {
         throw new BadRequestError('Неправильный id');
+      } else {
+        throw err;
       }
     })
     .catch(next);
