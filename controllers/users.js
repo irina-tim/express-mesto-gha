@@ -30,13 +30,12 @@ const getUser = (req, res, next) => {
 
 const getUserInfo = (req, res, next) => {
   const { _id } = req.user;
-
   User.findById(_id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      return res.send({ data: user });
+      res.send({ data: user });
     })
     .catch(next);
 };
@@ -108,7 +107,7 @@ const updateAvatar = (req, res, next) => {
     .catch(next);
 };
 
-const login = (req, res, next) => {
+const login = (req, res) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
@@ -120,7 +119,7 @@ const login = (req, res, next) => {
       res.send({ token });
     })
     .catch(() => {
-      next(new AuthError('Неправильные почта или пароль'));
+      throw new AuthError('Неправильные почта или пароль');
     });
 };
 
