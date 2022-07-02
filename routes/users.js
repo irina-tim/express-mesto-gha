@@ -13,9 +13,9 @@ const {
 router.get('/users', getUsers);
 router.get('/users/me', getUserInfo);
 // router.get('/users/:userId', getUser);
-router.get('/:userId', celebrate({
+router.get('/:userId', celebrate.celebrate({
   params: celebrate.Joi.object().keys({
-    userId: celebrate.string().required(),
+    userId: celebrate.Joi.string().required(),
   }),
 }), getUser);
 // router.post('/users', createUser);
