@@ -24,14 +24,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/signin', celebrate({
+app.post('/signin', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     email: celebrate.Joi.string().email().required(),
     password: celebrate.Joi.string().required(),
   }),
 }), login);
 
-app.post('/signup', celebrate({
+app.post('/signup', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     name: celebrate.Joi.string().min(2).max(30),
     about: celebrate.Joi.string().min(2).max(30),
