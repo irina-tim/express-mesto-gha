@@ -107,7 +107,7 @@ const updateAvatar = (req, res, next) => {
     .catch(next);
 };
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
@@ -119,7 +119,7 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch(() => {
-      throw new UnauthorizedError('Неправильные почта или пароль');
+      next(new UnauthorizedError('Неправильные почта или пароль'));
     });
 };
 
