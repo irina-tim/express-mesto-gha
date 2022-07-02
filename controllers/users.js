@@ -5,6 +5,7 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const AuthError = require('../errors/AuthError');
 const ConflictError = require('../errors/ConflictError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -33,7 +34,7 @@ const getUserInfo = (req, res, next) => {
   User.findById(_id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new UnauthorizedError('Запрашиваемый пользователь не найден');
       }
       res.send({ data: user });
     })
