@@ -38,12 +38,11 @@ const getUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.path === '_id') {
-        throw new BadRequestError('Неправильный id');
+        next(new BadRequestError('Неправильный id'));
       } else {
-        throw err;
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const getUserInfo = (req, res, next) => {
@@ -93,13 +92,13 @@ const createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Запрос содержит некорректные данные');
+        next(new BadRequestError('Запрос содержит некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с введённым e-mail уже зарегистрирован'));
+      } else {
+        next(err);
       }
-      if (err.code === 11000) {
-        throw new ConflictError('Пользователь с введённым e-mail уже зарегистрирован');
-      }
-    })
-    .catch(next);
+    });
 };
 
 const updateUserInfo = (req, res, next) => {
@@ -122,10 +121,11 @@ const updateUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Запрос содержит некорректные данные');
+        next(new BadRequestError('Запрос содержит некорректные данные'));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const updateAvatar = (req, res, next) => {
