@@ -36,12 +36,11 @@ const deleteCard = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequestError('Неправильный id карточки');
+        next(new BadRequestError('Неправильный id карточки'));
       } else {
-        throw err;
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const addLike = (req, res, next) => {
@@ -55,12 +54,11 @@ const addLike = (req, res, next) => {
     })
     .catch((err) => {
       if (err.path === '_id') {
-        throw new BadRequestError('Неправильный id карточки');
+        next(new BadRequestError('Неправильный id карточки'));
       } else {
-        throw err;
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 const removeLike = (req, res, next) => {
@@ -74,12 +72,11 @@ const removeLike = (req, res, next) => {
     })
     .catch((err) => {
       if (err.path === '_id') {
-        throw new BadRequestError('Неправильный id карточки');
+        next(new BadRequestError('Неправильный id карточки'));
       } else {
-        throw err;
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
