@@ -153,9 +153,6 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        next(new UnauthorizedError('Неправильные почта или пароль'));
-      }
       const token = jwt.sign(
         { _id: user._id },
         'secret',
@@ -163,7 +160,9 @@ const login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch(next);
+    .catch(() => {
+      next(new UnauthorizedError('Неправильные почта или пароль'));
+    });
 };
 
 module.exports = {
