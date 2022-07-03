@@ -24,7 +24,7 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  /* Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
@@ -40,7 +40,20 @@ const deleteCard = (req, res, next) => {
       } else {
         next(err);
       }
-    });
+    }); */
+
+  Card.findById(id)
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('Карточка не найдена');
+      }
+      if (card.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Недостаточно прав для удаления карточки');
+      }
+      return card.remove();
+    })
+    .then((card) => res.send({ data: card }))
+    .catch(next);
 };
 
 const addLike = (req, res, next) => {
