@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const celebrate = require('celebrate');
-
-const urlMatchRexExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const { urlMatchRegExp } = require('../utils/constants');
 
 const {
   getUsers,
@@ -22,14 +21,14 @@ router.get('/users/:userId', celebrate.celebrate({
 
 router.patch('/users/me', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
-    name: celebrate.Joi.string().min(2).max(30),
-    about: celebrate.Joi.string().min(2).max(30),
+    name: celebrate.Joi.string().min(2).max(30).required(),
+    about: celebrate.Joi.string().min(2).max(30).required(),
   }),
 }), updateUserInfo);
 
 router.patch('/users/me/avatar', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
-    avatar: celebrate.Joi.string().pattern(urlMatchRexExp).required(),
+    avatar: celebrate.Joi.string().pattern(urlMatchRegExp).required(),
   }),
 }), updateAvatar);
 

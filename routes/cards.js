@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const celebrate = require('celebrate');
-
-const urlMatchRexExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const { urlMatchRegExp } = require('../utils/constants');
 
 const {
   getCards,
@@ -16,7 +15,7 @@ router.get('/cards', getCards);
 router.post('/cards', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     name: celebrate.Joi.string().min(2).max(30).required(),
-    link: celebrate.Joi.string().pattern(urlMatchRexExp).required(),
+    link: celebrate.Joi.string().pattern(urlMatchRegExp).required(),
   }),
 }), createCard);
 

@@ -8,10 +8,10 @@ const cardsRoutes = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+const { urlMatchRegExp } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-const urlMatchRexExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
@@ -31,14 +31,15 @@ app.post('/signup', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     name: celebrate.Joi.string().min(2).max(30),
     about: celebrate.Joi.string().min(2).max(30),
-    avatar: celebrate.Joi.string().pattern(urlMatchRexExp),
+    avatar: celebrate.Joi.string().pattern(urlMatchRegExp),
     email: celebrate.Joi.string().email().required(),
     password: celebrate.Joi.string().required(),
   }),
 }), createUser);
 
-app.use('/', auth, usersRoutes);
-app.use('/', auth, cardsRoutes);
+app.use(auth);
+app.use('/', usersRoutes);
+app.use('/', cardsRoutes);
 
 app.all('*', (req, res, next) => {
   next(new NotFoundError('Ошибка 404. Путь не найден.'));
