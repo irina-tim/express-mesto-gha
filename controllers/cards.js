@@ -42,7 +42,7 @@ const deleteCard = (req, res, next) => {
       }
     }); */
 
-  Card.findById(id)
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
