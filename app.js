@@ -20,13 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(helmet());
 
-/* app.use((req, res, next) => {
-  req.user = {
-    _id: '62a6e342be0c64b3253849d5',
-  };
-  next();
-}); */
-
 app.post('/signin', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
     email: celebrate.Joi.string().email().required(),
@@ -44,8 +37,6 @@ app.post('/signup', celebrate.celebrate({
   }),
 }), createUser);
 
-// app.use(auth);
-
 app.use('/', auth, usersRoutes);
 app.use('/', auth, cardsRoutes);
 
@@ -56,7 +47,6 @@ app.all('*', (req, res, next) => {
 app.use(celebrate.errors());
 
 app.use((err, req, res, next) => {
-  console.log(err);
   const { statusCode = 500, message } = err;
   res.status(statusCode)
     .send({
