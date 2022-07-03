@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator(url) {
         return validator.isURL(url);
-        //return regExp.test(url);
+        // return regExp.test(url);
       },
       message: 'Некорректный URL',
     },
