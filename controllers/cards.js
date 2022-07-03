@@ -24,24 +24,6 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  /* Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Карточка не найдена');
-      }
-      if (card.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Недостаточно прав для удаления карточки');
-      }
-      res.send({ data: card });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Неправильный id карточки'));
-      } else {
-        next(err);
-      }
-    }); */
-
   Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
