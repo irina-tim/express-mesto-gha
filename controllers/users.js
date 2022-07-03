@@ -158,11 +158,12 @@ const login = (req, res, next) => {
         'secret',
         { expiresIn: '7d' },
       );
+      if (!token) {
+        next(new UnauthorizedError('Неправильные почта или пароль'));
+      }
       res.send({ token });
     })
-    .catch(() => {
-      next(new UnauthorizedError('Неправильные почта или пароль'));
-    });
+    .catch(next);
 };
 
 module.exports = {
