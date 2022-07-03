@@ -9,13 +9,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({
-      data: users.map((user) => ({
-        _id: user._id,
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-      })),
+      data: users,
     }))
     .catch(next);
 };
@@ -27,13 +21,7 @@ const getUser = (req, res, next) => {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
       res.send({
-        data: {
-          _id: user._id,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        },
+        data: user,
       });
     })
     .catch((err) => {
@@ -53,13 +41,7 @@ const getUserInfo = (req, res, next) => {
         throw new UnauthorizedError('Запрашиваемый пользователь не найден');
       }
       res.send({
-        data: {
-          _id: user._id,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        },
+        data: user,
       });
     })
     .catch(next);
@@ -110,13 +92,7 @@ const updateUserInfo = (req, res, next) => {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
       res.send({
-        data: {
-          _id: user._id,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        },
+        data: user,
       });
     })
     .catch((err) => {
@@ -137,13 +113,7 @@ const updateAvatar = (req, res, next) => {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
       res.send({
-        data: {
-          _id: user._id,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-        },
+        data: user,
       });
     })
     .catch(next);
