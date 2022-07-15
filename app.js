@@ -9,6 +9,7 @@ const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
 const { urlMatchRegExp } = require('./utils/constants');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -19,6 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(helmet());
+
+app.use(requestLogger);
 
 app.post('/signin', celebrate.celebrate({
   body: celebrate.Joi.object().keys({
@@ -44,6 +47,8 @@ app.use('/', cardsRoutes);
 app.all('*', (req, res, next) => {
   next(new NotFoundError('Ошибка 404. Путь не найден.'));
 });
+
+app.use(errorLogger);
 
 app.use(celebrate.errors());
 
